@@ -32,11 +32,11 @@ const posts = (await getPosts()).slice(0, 5);
 
 const { email, dblp, orcid, scholar, github } = site.links;
 const contact = [
-  { text: 'Email', href: email && `mailto:${email}` },
-  { text: 'DBLP', href: dblp },
-  { text: 'ORCID', href: orcid },
-  { text: 'Scholar', href: scholar },
-  { text: 'GitHub', href: github },
+  { text: 'email', href: email && `mailto:${email}` },
+  { text: 'dblp', href: dblp },
+  { text: 'orcid', href: orcid },
+  { text: 'scholar', href: scholar },
+  { text: 'github', href: github },
 ].filter((l) => l.href);
 ---
 
@@ -62,7 +62,7 @@ const contact = [
           <ul class="plain">
             {news.map(({ data }) => (
               <li>
-                <span class="date">{formatDate(data.date, { month: 'short', year: 'numeric' })}</span>
+                <span class="date">{formatDate(data.date, 'month')}</span>
                 {data.url ? <a href={data.url}>{data.text}</a> : data.text}
               </li>
             ))}
@@ -76,7 +76,7 @@ const contact = [
     label="Research"
     id="research"
     bg="research"
-    more={{ href: '/papers/', text: 'All papers, chronologically', framed: true }}
+    more={{ href: '/papers/', text: 'all papers, chronologically', framed: true }}
   >
     <p>Selected work, grouped by theme. The complete list follows DBLP and links to every version.</p>
     <div class="topics">
@@ -116,7 +116,7 @@ const contact = [
               {teaching.map(({ data }) => (
                 <li>
                   <span class="date">
-                    {data.kind === 'talk' ? 'Talk' : 'Course'} · {data.when ?? data.year}
+                    {data.when ?? data.year} · {data.kind === 'talk' ? 'talk' : 'course'}
                   </span>
                   {data.url ? <a href={data.url}>{data.title}</a> : data.title}
                   {data.where && <>, {data.where}</>}

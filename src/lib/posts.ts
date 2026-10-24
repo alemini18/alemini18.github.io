@@ -6,6 +6,7 @@ export async function getPosts() {
   return posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 }
 
-export function formatDate(d: Date, opts: Intl.DateTimeFormatOptions = { dateStyle: 'long' }) {
-  return d.toLocaleDateString('en-US', { timeZone: 'UTC', ...opts });
+/** ISO dates: 2026-10-24, or 2026-10 with 'month'. */
+export function formatDate(d: Date, precision: 'day' | 'month' = 'day') {
+  return d.toISOString().slice(0, precision === 'day' ? 10 : 7);
 }

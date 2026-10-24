@@ -2,10 +2,13 @@
 import '@fontsource-variable/source-serif-4/opsz.css';
 import '@fontsource-variable/source-serif-4/opsz-italic.css';
 import '@fontsource-variable/figtree';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
 import 'katex/dist/katex.min.css';
 import '../styles/global.css';
 import { site, fullName } from '../site.config';
-import { getPosts } from '../lib/posts';
+import { getPosts, formatDate } from '../lib/posts';
+import { getPapers } from '../lib/papers';
 
 interface Props {
   title?: string;
@@ -15,6 +18,8 @@ interface Props {
 const { title, description = site.description } = Astro.props;
 const pageTitle = title ? `${title} · ${fullName}` : fullName;
 const hasPosts = (await getPosts()).length > 0;
+const { source } = await getPapers();
+const built = formatDate(new Date());
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 
 const nav = [
@@ -60,7 +65,10 @@ const current = (href: string) => (href.replace(/\/$/, '') === path ? 'page' : u
       </main>
       <footer class="bar footer">
         <span>© {new Date().getFullYear()} {fullName}</span>
-        <span>{hasPosts && <a href="/rss.xml">RSS</a>}</span>
+        <span>
+          built {built} · papers from <a href={site.links.dblp}>dblp</a>{source.startsWith('snapshot') && ` (${source})`}
+          {hasPosts && <> · <a href="/rss.xml">rss</a></>}
+        </span>
       </footer>
     </div>
   </body>

@@ -30,6 +30,7 @@ const links = paperLinks(paper);
 <li class="paper" id={anchor}>
   {num !== undefined && <span class="num">[{num}]</span>}
   <div>
+    <span class="title" set:html={titleHtml} />
     <span class="authors">
       {
         paper.authors.map((a, i) => (
@@ -39,21 +40,18 @@ const links = paperLinks(paper);
           </>
         ))
       }
-    </span><br />
-    <span class="title" set:html={`${titleHtml}.`} />{' '}
-    {venue && <span class="venue">{venue}</span>}
-    {extra && <span class="extra"> ({extra})</span>}
-    {
-      links.length > 0 && (
-        <span class="links">
-          {links.map((l) => (
-            <>
-              {' '}
-              <a href={l.href}>{l.label}</a>
-            </>
-          ))}
-        </span>
-      )
-    }
+    </span>
+    <span class="info">
+      {venue}
+      {extra && <span class="extra"> ({extra})</span>}
+      {
+        links.map((l) => (
+          <>
+            <span class="sep"> · </span>
+            <a href={l.href}>{l.label}</a>
+          </>
+        ))
+      }
+    </span>
   </div>
 </li>

@@ -14,7 +14,7 @@ const { Content } = await render(post);
 ---
 
 <Base title={post.data.title} description={post.data.description}>
-  <Section label="Notes" more={{ href: '/notes/', text: 'All notes' }}>
+  <Section label="Notes" more={{ href: '/notes/', text: 'all notes' }}>
     <article class="note">
       <span class="date">{formatDate(post.data.date)}{post.data.draft && ' · draft'}</span>
       <h1 class="page-title">{post.data.title}</h1>

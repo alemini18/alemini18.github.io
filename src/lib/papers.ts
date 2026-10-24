@@ -123,9 +123,9 @@ function merge(all: (Paper & { source: 'dblp' | 'local' })[]): MergedPaper[] {
 export function paperLinks(p: Paper): { label: string; href: string }[] {
   const links: { label: string; href: string }[] = [];
   const pdf = p.pdf ?? (p.arxiv ? `https://arxiv.org/pdf/${p.arxiv}` : undefined);
-  if (pdf) links.push({ label: 'PDF', href: pdf });
-  if (p.doi) links.push({ label: 'DOI', href: `https://doi.org/${p.doi}` });
+  if (pdf) links.push({ label: 'pdf', href: pdf });
+  if (p.doi) links.push({ label: 'doi', href: `https://doi.org/${p.doi}` });
   if (p.arxiv) links.push({ label: 'arXiv', href: `https://arxiv.org/abs/${p.arxiv}` });
-  if (p.url && !p.doi) links.push({ label: 'Web', href: p.url });
+  if (p.url && !p.doi) links.push({ label: 'web', href: p.url });
   return links;
 }

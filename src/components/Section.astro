@@ -1,6 +1,7 @@
 ---
-// A home-page section: small boxed uppercase label with the coloured notch
-// on the left line, optional background, optional "more" link bottom right.
+// A page section: small boxed uppercase label, numbered q0, q1, ... like
+// automaton states (a CSS counter), with the coloured notch on the left
+// line; optional background, optional "more" link bottom right.
 //
 //   bg:   a palette token from global.css ("research" → var(--research-bg),
 //         which also switches links to a colour readable on it), or any CSS colour
@@ -22,7 +23,7 @@ const headingId = `${id ?? label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-labe
 ---
 
 <section class="section" id={id} data-bg={token} style={style} aria-labelledby={headingId}>
-  <h2 class="label" id={headingId}><span>{label}</span></h2>
+  <h2 class="label" id={headingId}><span class="q" aria-hidden="true"></span><span>{label}</span></h2>
   <div class="section-body"><slot /></div>
   {
     link && (

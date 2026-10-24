@@ -1,7 +1,8 @@
 ---
 import '@fontsource-variable/source-serif-4/opsz.css';
 import '@fontsource-variable/source-serif-4/opsz-italic.css';
-import '@fontsource-variable/figtree';
+import '@fontsource/spectral-sc/300.css';
+import '@fontsource/spectral-sc/400.css';
 import '@fontsource/ibm-plex-mono/400.css';
 import '@fontsource/ibm-plex-mono/500.css';
 import 'katex/dist/katex.min.css';
@@ -25,6 +26,7 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const nav = [
   { href: '/#research', text: 'Research' },
   { href: '/papers/', text: 'Papers' },
+  { href: '/cv/', text: 'CV' },
   ...(hasPosts ? [{ href: '/notes/', text: 'Notes' }] : []),
 ];
 const current = (href: string) => (href.replace(/\/$/, '') === path ? 'page' : undefined);
@@ -39,8 +41,8 @@ const current = (href: string) => (href.replace(/\/$/, '') === path ? 'page' : u
     <meta name="description" content={description} />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <meta name="theme-color" content="#e8e6e1" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#151617" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f3f0e8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#121317" media="(prefers-color-scheme: dark)" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -49,7 +51,7 @@ const current = (href: string) => (href.replace(/\/$/, '') === path ? 'page' : u
   <body>
     <div class="page">
       <div class="bar">
-        <a href="/">{fullName}</a>
+        <a class="home" href="/">{fullName}</a>
         <nav aria-label="Main">
           {
             nav.map((n) => (

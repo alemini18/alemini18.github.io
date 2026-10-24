@@ -11,17 +11,31 @@ export const site = {
 
   // Two lines of presentation, shown in the About section.
   about:
-    'I work on automata theory and formal languages, and on the use of formal methods to verify software and protocols.',
+    'I am an M.Sc. student in Computer Science at the University of Udine. I work on automata theory and formal languages.',
 
   dblpPid: '393/1917',
 
   links: {
-    email: '',
+    email: 'minisini.alessandro@spes.uniud.it',
     dblp: 'https://dblp.org/pid/393/1917.html',
-    orcid: '',
+    orcid: 'https://orcid.org/0009-0001-2485-0507',
     scholar: '',
     github: 'https://github.com/alemini18',
+    linkedin: 'https://www.linkedin.com/in/alemini',
   },
 };
 
 export const fullName = `${site.name.first} ${site.name.last}`;
+
+/** Contact links in display order, without the empty ones. */
+export function contactLinks() {
+  const { email, dblp, orcid, scholar, github, linkedin } = site.links;
+  return [
+    { text: 'email', href: email && `mailto:${email}` },
+    { text: 'orcid', href: orcid },
+    { text: 'dblp', href: dblp },
+    { text: 'scholar', href: scholar },
+    { text: 'github', href: github },
+    { text: 'linkedin', href: linkedin },
+  ].filter((l) => l.href);
+}

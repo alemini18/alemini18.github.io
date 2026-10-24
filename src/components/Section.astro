@@ -3,8 +3,7 @@
 // automaton states (a CSS counter), with the coloured notch on the left
 // line; optional background, optional "more" link bottom right.
 //
-//   bg:   a palette token from global.css ("research" → var(--research-bg),
-//         which also switches links to a colour readable on it), or any CSS colour
+//   bg:   any CSS colour, e.g. a palette variable such as "var(--hover-bg)"
 //   more: a URL, or { href, text, framed }
 interface Props {
   label: string;
@@ -13,16 +12,13 @@ interface Props {
   id?: string;
 }
 
-const TOKENS = new Set(['research']);
-
 const { label, bg, more, id } = Astro.props;
-const token = bg && TOKENS.has(bg) ? bg : undefined;
-const style = bg ? `--section-bg: ${token ? `var(--${token}-bg)` : bg}` : undefined;
+const style = bg ? `--section-bg: ${bg}` : undefined;
 const link = typeof more === 'string' ? { href: more } : more;
 const headingId = `${id ?? label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-label`;
 ---
 
-<section class="section" id={id} data-bg={token} style={style} aria-labelledby={headingId}>
+<section class="section" id={id} style={style} aria-labelledby={headingId}>
   <h2 class="label" id={headingId}><span class="q" aria-hidden="true"></span><span>{label}</span></h2>
   <div class="section-body"><slot /></div>
   {

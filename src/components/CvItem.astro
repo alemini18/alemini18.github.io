@@ -1,0 +1,30 @@
+---
+import type { CvEntry } from '../data/cv';
+
+interface Props {
+  entry: CvEntry;
+}
+
+const { entry } = Astro.props;
+---
+
+<li class="cv-item">
+  <div class="cv-when date">
+    {entry.when && <span>{entry.when}</span>}
+    {entry.place && <span>{entry.place}</span>}
+  </div>
+  <div class="cv-body">
+    <h3 class="cv-title">{entry.url ? <a href={entry.url}>{entry.title}</a> : entry.title}</h3>
+    <p class="cv-org">{entry.org}</p>
+    {entry.text && <p class="inline-links" set:html={entry.text} />}
+    {
+      entry.bullets && (
+        <ul class="inline-links">
+          {entry.bullets.map((b) => (
+            <li set:html={b} />
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</li>

@@ -1,31 +1,83 @@
 ---
-import { render } from 'astro:content';
+// Both the list (/notes/) and the single notes (/notes/<id>/). Nothing is
+// generated while there are no published posts, so the section does not
+// exist at all until the first one.
+import { render, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
 import Section from '../../components/Section.astro';
 import { getPosts, formatDate } from '../../lib/posts';
 
 export async function getStaticPaths() {
   const posts = await getPosts();
-  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+  if (posts.length === 0) return [];
+  return [
+    { params: { slug: undefined }, props: { posts } },
+    ...posts.map((post) => ({ params: { slug: post.id }, props: { post } })),
+  ];
 }
 
-const { post } = Astro.props;
-const { Content } = await render(post);
+interface Props {
+  posts?: CollectionEntry<'posts'>[];
+  post?: CollectionEntry<'posts'>;
+}
+
+const { posts, post } = Astro.props;
+const Content = post && (await render(post)).Content;
 ---
 
-<Base title={post.data.title} description={post.data.description}>
-  <Section label="Notes" more={{ href: '/notes/', text: 'all notes' }}>
-    <article class="note">
-      <span class="date">{formatDate(post.data.date)}{post.data.draft && ' · draft'}</span>
-      <h1 class="page-title">{post.data.title}</h1>
-      <div class="prose">
-        <Content />
-      </div>
-    </article>
-  </Section>
-</Base>
+{
+  posts && (
+    <Base title="Notes" description="Notes and short posts.">
+      <PageHead title="Notes" />
+      <Section label="All notes">
+        <ul class="plain notes-list">
+          {posts.map((p) => (
+            <li>
+              <span class="date">{formatDate(p.data.date)}</span>
+              <h2 class="note-title">
+                <a href={`/notes/${p.id}/`}>{p.data.title}</a>
+              </h2>
+              {p.data.description && <p>{p.data.description}</p>}
+            </li>
+          ))}
+        </ul>
+      </Section>
+    </Base>
+  )
+}
+{
+  post && Content && (
+    <Base title={post.data.title} description={post.data.description}>
+      <PageHead title="Notes" heading={false} />
+      <Section label="Note" more={{ href: '/notes/', text: 'all notes' }}>
+        <article class="note">
+          <span class="date">
+            {formatDate(post.data.date)}
+            {post.data.draft && ' · draft'}
+          </span>
+          <h1 class="page-title">{post.data.title}</h1>
+          <div class="prose">
+            <Content />
+          </div>
+        </article>
+      </Section>
+    </Base>
+  )
+}
 
 <style>
+  .notes-list > li + li {
+    margin-top: 1.4em;
+    padding-top: 1.2em;
+    border-top: 1px solid var(--rule);
+  }
+  .note-title {
+    font-size: 1.45rem;
+    font-weight: 400;
+    line-height: 1.25;
+    margin: 0.15em 0 0.25em;
+  }
   .note {
     max-width: 40em;
   }

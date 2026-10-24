@@ -1,0 +1,19 @@
+---
+// Header of the inner pages: the page name in small caps, over a grid of
+// dots that fades towards it, with one accent point on a grid node.
+interface Props {
+  title: string;
+  /** Render the title as a plain line when the page has its own h1 (e.g. a note). */
+  heading?: boolean;
+}
+
+const { title, heading = true } = Astro.props;
+const Tag = heading ? 'h1' : 'p';
+---
+
+<header class="masthead pagehead">
+  <Tag class="name">{title}</Tag>
+  <div class="deco deco-grid" aria-hidden="true">
+    <span class="point"></span>
+  </div>
+</header>

@@ -19,7 +19,7 @@ npm run update-papers   # refresh data/dblp.snapshot.json from DBLP
 | Papers not on DBLP | `data/papers.local.bib` |
 | News | `src/content/news.yaml` |
 | Teaching and talks | `src/content/teaching.yaml` |
-| Notes / blog (RSS at `/rss.xml`) | `src/content/posts/*.md` |
+| Notes / blog (RSS at `/rss.xml`; nothing is published until the first non-draft post) | `src/content/posts/*.md` |
 | Colours (light and dark) | top of `src/styles/global.css` |
 
 ## Papers

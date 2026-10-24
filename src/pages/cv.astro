@@ -1,0 +1,142 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Section from '../components/Section.astro';
+import CvItem from '../components/CvItem.astro';
+import { cv } from '../data/cv';
+import { contactLinks } from '../site.config';
+
+const honors = [
+  { group: 'International', items: cv.honors.international },
+  { group: 'National', items: cv.honors.national },
+];
+---
+
+<Base title="CV" description={`Curriculum vitae: ${cv.headline}.`}>
+  <PageHead title="Curriculum vitae" />
+
+  <Section label="Profile" more={{ href: cv.pdf, text: 'download the pdf', framed: true }}>
+    <p class="lead">{cv.headline}</p>
+    <p class="contact">
+      {contactLinks().map((l) => <a href={l.href}>{l.text}</a>)}
+    </p>
+  </Section>
+
+  <Section label="Education">
+    <ul class="cv-list">{cv.education.map((e) => <CvItem entry={e} />)}</ul>
+  </Section>
+
+  <Section label="Projects">
+    <ul class="cv-list">{cv.projects.map((e) => <CvItem entry={e} />)}</ul>
+  </Section>
+
+  <Section label="Honors & awards">
+    {
+      honors.map(({ group, items }) => (
+        <div class="honors">
+          <h3 class="cv-group">{group}</h3>
+          <ul>
+            {items.map((h) => (
+              <li>
+                <span class="date">{h.year}</span>
+                <span>
+                  <strong>{h.result}</strong>, {h.event}
+                </span>
+                <span class="date">{h.place}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </Section>
+
+  <Section label="Activities">
+    <ul class="cv-list">{cv.activities.map((e) => <CvItem entry={e} />)}</ul>
+  </Section>
+</Base>
+
+<style>
+  .cv-list {
+    list-style: none;
+    margin: 0;
+  }
+  .cv-list :global(.cv-item) {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    gap: 0 1.5rem;
+    padding: 1.1em 0;
+    border-top: 1px solid var(--rule);
+  }
+  .cv-list :global(.cv-item:first-child) {
+    border-top: 0;
+    padding-top: 0;
+  }
+  .cv-list :global(.cv-when) {
+    display: flex;
+    flex-direction: column;
+    padding-top: 0.25em;
+  }
+  .cv-list :global(.cv-title) {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  .cv-list :global(.cv-title a) {
+    color: var(--link);
+  }
+  .cv-list :global(.cv-org) {
+    font-family: var(--display);
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
+    color: var(--muted);
+    margin-bottom: 0.35em;
+  }
+  .cv-list :global(ul) {
+    margin-left: 1.1em;
+    list-style: disc;
+  }
+
+  .honors + .honors {
+    margin-top: 1.6em;
+  }
+  .cv-group {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 1.05rem;
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
+    margin-bottom: 0.4em;
+  }
+  .honors ul {
+    list-style: none;
+    margin: 0;
+  }
+  .honors li {
+    display: grid;
+    grid-template-columns: 11rem 1fr auto;
+    gap: 0 1.5rem;
+    align-items: baseline;
+    padding: 0.3em 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  @media (max-width: 700px) {
+    .cv-list :global(.cv-item) {
+      grid-template-columns: 1fr;
+    }
+    .cv-list :global(.cv-when) {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0 1em;
+      padding: 0 0 0.2em;
+    }
+    .honors li {
+      grid-template-columns: 3.2rem 1fr;
+    }
+    .honors li > :last-child {
+      grid-column: 2;
+    }
+  }
+</style>

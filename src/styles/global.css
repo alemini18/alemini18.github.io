@@ -1,18 +1,16 @@
 /* ------------------------------------------------------------ tokens */
 
 :root {
-  --bg: #e8e6e1;
-  --fg: #141414;
-  --muted: #5e5b56;
-  --rule: #9a9792;
-  --rule-strong: #141414;
-  --accent: #9c3d2e;
-  --research-bg: #b3cec4;
-  --accent-on-research: #7a2c20;
-  --hover-bg: #dfddd7;
+  --bg: #f3f0e8; /* paper */
+  --fg: #16171c; /* ink */
+  --muted: #5f5b53;
+  --rule: #aaa597;
+  --rule-strong: #16171c;
+  --accent: #2a3fd1; /* ultramarine */
+  --hover-bg: #ebe7dc;
 
   --serif: 'Source Serif 4 Variable', 'Source Serif 4', Georgia, serif;
-  --sans: 'Figtree Variable', 'Figtree', 'Helvetica Neue', Arial, sans-serif;
+  --display: 'Spectral SC', var(--serif);
   --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
   --column: 1180px;
@@ -26,15 +24,13 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #151617;
-    --fg: #e6e3dc;
-    --muted: #a19d96;
-    --rule: #4c4e52;
-    --rule-strong: #e6e3dc;
-    --accent: #e8907a;
-    --research-bg: #1f3a35;
-    --accent-on-research: #f0a28c;
-    --hover-bg: #1c1e20;
+    --bg: #121317;
+    --fg: #ece8df;
+    --muted: #a29e95;
+    --rule: #45474e;
+    --rule-strong: #ece8df;
+    --accent: #8e9cff;
+    --hover-bg: #1b1c21;
   }
 }
 
@@ -165,6 +161,12 @@ b {
   line-height: 40px;
   text-transform: lowercase;
 }
+/* the name in the bar: lowercase letters are small caps in Spectral SC */
+.bar .home {
+  font-family: var(--display);
+  font-size: 15px;
+  letter-spacing: 0.06em;
+}
 .bar nav {
   display: flex;
   gap: 0 1.6em;
@@ -195,10 +197,6 @@ b {
   background: var(--section-bg, transparent);
   display: flex;
   flex-direction: column;
-}
-.section[data-bg='research'] {
-  --link: var(--accent-on-research);
-  --muted: var(--fg);
 }
 .section > .section-body {
   flex: 1;
@@ -466,10 +464,6 @@ b {
   background: var(--hover-bg);
   outline: 6px solid var(--hover-bg);
 }
-.section[data-bg='research'] .paper:target {
-  background: transparent;
-  outline: 1px solid var(--fg);
-}
 
 /* chronological list: year on the left, papers on the right */
 .years {
@@ -492,41 +486,79 @@ b {
 /* ------------------------------------------------------------ header */
 
 .masthead {
-  padding: 56px var(--pad) 34px;
+  padding: 64px var(--pad) 56px;
   border-bottom: 1px solid var(--rule);
 }
 .masthead .name {
-  font-family: var(--sans);
-  font-weight: 700;
-  font-size: clamp(2.3rem, 6.4vw, 4.4rem);
-  line-height: 1.02;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: clamp(2.1rem, 7.2vw, 5rem);
+  line-height: 1.05;
+  letter-spacing: 0.03em;
 }
-.masthead .name span {
+.masthead .name > span {
   display: block;
 }
-.masthead .name span + span {
-  padding-left: 1.9em; /* the second line starts further right */
+.masthead .last {
+  padding-left: 2.25em; /* the second line starts further right and ends past the first */
 }
-/* the lasso starts on the column's left line */
-.masthead .lasso {
-  display: block;
-  width: calc(100% + var(--pad));
-  height: 40px;
-  margin: 26px 0 0 calc(-1 * var(--pad));
+@media (min-width: 1101px) {
+  .masthead .last {
+    padding-left: 3em;
+  }
+}
+
+/* decorations to the right of the name: circle on the home, grid on inner pages */
+.masthead .name {
+  position: relative;
+  z-index: 1;
+}
+.masthead .deco {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 52%;
+  height: 100%;
   overflow: hidden;
+  pointer-events: none;
 }
-.masthead .rule {
+.deco-circle .ring {
   fill: none;
   stroke: var(--fg);
   stroke-width: 1;
+  vector-effect: non-scaling-stroke;
 }
-.masthead .state {
-  fill: var(--fg);
-}
-.masthead .state.current {
+.deco-circle .point,
+.deco-grid .point {
   fill: var(--accent);
+  background: var(--accent);
+}
+.deco-grid {
+  background-image: radial-gradient(circle, var(--rule) 1.1px, transparent 1.6px);
+  background-size: 18px 18px;
+  background-position: right top;
+  mask-image: linear-gradient(to left, #000 20%, transparent 85%);
+}
+/* sits on a grid point: tiles are 18px, measured from the top right corner */
+.deco-grid .point {
+  position: absolute;
+  top: calc(9px + 18px * 6 - 4px);
+  right: calc(9px + 18px * 9 - 4px);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+/* inner pages: a shorter header with the page name */
+.pagehead {
+  padding-block: 46px 40px;
+}
+.pagehead .name {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+}
+.pagehead .deco-grid .point {
+  top: calc(9px + 18px * 3 - 4px);
+  right: calc(9px + 18px * 7 - 4px);
 }
 
 /* ---------------------------------------------------------- responsive */
@@ -587,12 +619,15 @@ b {
     padding-block: 4px;
   }
   .masthead {
-    padding-block: 36px 22px;
+    padding-block: 40px 34px;
   }
-  .masthead .lasso {
-    margin-top: 18px;
+  .pagehead .deco-grid .point {
+    right: calc(9px + 18px * 2 - 4px);
   }
-  .masthead .state.wide {
-    display: none;
+  .bar .home {
+    font-size: 14px;
+  }
+  .bar nav {
+    gap: 0 1.1em;
   }
 }

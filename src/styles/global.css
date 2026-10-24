@@ -492,7 +492,7 @@ b {
 .masthead .name {
   font-family: var(--display);
   font-weight: 300;
-  font-size: clamp(2.1rem, 7.2vw, 5rem);
+  font-size: clamp(1.4rem, 7.2vw, 5rem);
   line-height: 1.05;
   letter-spacing: 0.03em;
 }
@@ -500,12 +500,9 @@ b {
   display: block;
 }
 .masthead .last {
-  padding-left: 2.25em; /* the second line starts further right and ends past the first */
-}
-@media (min-width: 1101px) {
-  .masthead .last {
-    padding-left: 3em;
-  }
+  /* the M of the surname starts under the D of "Alessandro" (measured for
+     Spectral SC 300; to be measured again if the font or the name change) */
+  padding-left: 4.34em;
 }
 
 /* decorations to the right of the name: circle on the home, grid on inner pages */

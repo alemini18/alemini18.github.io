@@ -40,7 +40,7 @@ export const cv = {
       place: 'Udine, Italy',
       when: 'Oct 2024 – now',
       bullets: [
-        'GPA: 30/30.',
+        'GPA: 29.8/30.',
         'Relevant courses: Computability theory, Complexity theory, Automated reasoning, Formal verification, Distributed systems and algorithms, Operations research.',
       ],
     },

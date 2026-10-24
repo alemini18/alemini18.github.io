@@ -1,0 +1,143 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Section from '../components/Section.astro';
+import PaperItem from '../components/PaperItem.astro';
+import { site } from '../site.config';
+import { getPapers } from '../lib/papers';
+import { getPosts, formatDate } from '../lib/posts';
+import { citeAnchor } from '../lib/remark-cite';
+
+const { byKey } = await getPapers();
+
+const topics = await Promise.all(
+  (await getCollection('topics'))
+    .sort((a, b) => a.data.order - b.data.order)
+    .map(async (topic) => {
+      const papers = topic.data.papers.map((key, i) => {
+        const paper = byKey.get(key);
+        if (!paper) console.warn(`[topics] ${topic.id}: paper "${key}" not found`);
+        return { key, paper, num: i + 1 };
+      });
+      return { topic, papers, Content: (await render(topic)).Content };
+    }),
+);
+
+const news = (await getCollection('news')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).slice(0, 6);
+const teaching = (await getCollection('teaching'))
+  .sort((a, b) => b.data.year - a.data.year)
+  .slice(0, 6);
+const posts = (await getPosts()).slice(0, 5);
+
+const { email, dblp, orcid, scholar, github } = site.links;
+const contact = [
+  { text: 'Email', href: email && `mailto:${email}` },
+  { text: 'DBLP', href: dblp },
+  { text: 'ORCID', href: orcid },
+  { text: 'Scholar', href: scholar },
+  { text: 'GitHub', href: github },
+].filter((l) => l.href);
+---
+
+<Base>
+  <Header />
+
+  <div class="split">
+    <Section label="About" id="about">
+      <p class="lead">{site.about}</p>
+      {
+        contact.length > 0 && (
+          <p class="contact">
+            {contact.map((l) => (
+              <a href={l.href}>{l.text}</a>
+            ))}
+          </p>
+        )
+      }
+    </Section>
+    {
+      news.length > 0 && (
+        <Section label="News" id="news">
+          <ul class="plain">
+            {news.map(({ data }) => (
+              <li>
+                <span class="date">{formatDate(data.date, { month: 'short', year: 'numeric' })}</span>
+                {data.url ? <a href={data.url}>{data.text}</a> : data.text}
+              </li>
+            ))}
+          </ul>
+        </Section>
+      )
+    }
+  </div>
+
+  <Section
+    label="Research"
+    id="research"
+    bg="research"
+    more={{ href: '/papers/', text: 'All papers, chronologically', framed: true }}
+  >
+    <p>Selected work, grouped by theme. The complete list follows DBLP and links to every version.</p>
+    <div class="topics">
+      {
+        topics.map(({ topic, papers, Content }) => (
+          <article class="topic" id={`topic-${topic.id}`}>
+            <h3>{topic.data.title}</h3>
+            <ol class="papers numbered">
+              {papers.map(({ key, paper, num }) =>
+                paper ? (
+                  <PaperItem paper={paper} num={num} anchor={citeAnchor(topic.id, num)} />
+                ) : (
+                  import.meta.env.DEV && (
+                    <li class="paper" id={citeAnchor(topic.id, num)}>
+                      <span class="num">[{num}]</span>
+                      <span class="extra">not found: {key}</span>
+                    </li>
+                  )
+                ),
+              )}
+            </ol>
+            <div class="prose">
+              <Content />
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </Section>
+
+  {
+    (teaching.length > 0 || posts.length > 0) && (
+      <div class="split">
+        {teaching.length > 0 && (
+          <Section label="Teaching & Talks" id="teaching">
+            <ul class="plain">
+              {teaching.map(({ data }) => (
+                <li>
+                  <span class="date">
+                    {data.kind === 'talk' ? 'Talk' : 'Course'} · {data.when ?? data.year}
+                  </span>
+                  {data.url ? <a href={data.url}>{data.title}</a> : data.title}
+                  {data.where && <>, {data.where}</>}
+                </li>
+              ))}
+            </ul>
+          </Section>
+        )}
+        {posts.length > 0 && (
+          <Section label="Notes" id="notes" more="/notes/">
+            <ul class="plain">
+              {posts.map((p) => (
+                <li>
+                  <span class="date">{formatDate(p.data.date)}</span>
+                  <a href={`/notes/${p.id}/`}>{p.data.title}</a>
+                </li>
+              ))}
+            </ul>
+          </Section>
+        )}
+      </div>
+    )
+  }
+</Base>

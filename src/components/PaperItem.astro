@@ -1,0 +1,59 @@
+---
+import katex from 'katex';
+import { site, fullName } from '../site.config';
+import { paperLinks, type MergedPaper } from '../lib/papers';
+
+interface Props {
+  paper: MergedPaper;
+  /** Shown as [n] before the entry (topic lists). */
+  num?: number;
+  anchor?: string;
+}
+
+const { paper, num, anchor } = Astro.props;
+
+const isMe = (a: { name: string; pid?: string }) => (a.pid ? a.pid === site.dblpPid : a.name === fullName);
+
+// Titles from the local .bib may contain $...$; typeset those, escape the rest.
+const escape = (s: string) =>
+  s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+const titleHtml = paper.title
+  .split(/(\$[^$]+\$)/)
+  .map((part, i) => (i % 2 ? katex.renderToString(part.slice(1, -1), { throwOnError: false }) : escape(part)))
+  .join('');
+
+const venue = [paper.venue, paper.year].filter(Boolean).join(' ');
+const extra = [paper.note, ...paper.also.map((v) => `also ${v}`)].filter(Boolean).join('; ');
+const links = paperLinks(paper);
+---
+
+<li class="paper" id={anchor}>
+  {num !== undefined && <span class="num">[{num}]</span>}
+  <div>
+    <span class="authors">
+      {
+        paper.authors.map((a, i) => (
+          <>
+            {i > 0 && ', '}
+            {isMe(a) ? <span class="me">{a.name}</span> : a.name}
+          </>
+        ))
+      }
+    </span><br />
+    <span class="title" set:html={`${titleHtml}.`} />{' '}
+    {venue && <span class="venue">{venue}</span>}
+    {extra && <span class="extra"> ({extra})</span>}
+    {
+      links.length > 0 && (
+        <span class="links">
+          {links.map((l) => (
+            <>
+              {' '}
+              <a href={l.href}>{l.label}</a>
+            </>
+          ))}
+        </span>
+      )
+    }
+  </div>
+</li>

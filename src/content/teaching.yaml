@@ -1,0 +1,10 @@
+# Courses and talks. The section is hidden while this list is empty.
+# Fields: id (unique), kind (teaching | talk), title, where, year, when (optional label), url (optional).
+#
+# - id: tutor-2026
+#   kind: teaching
+#   title: Automata and formal languages (teaching assistant)
+#   where: University name
+#   year: 2026
+#   when: Spring 2026
+[]

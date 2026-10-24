@@ -1,0 +1,56 @@
+{
+  "pid": "393/1917",
+  "source": "sparql.dblp.org",
+  "fetchedAt": "2026-10-24T19:15:08.398Z",
+  "papers": [
+    {
+      "key": "conf/ictcs/DAgostinoMP26",
+      "title": "Non-deterministic Width of Regular Languages: the Unary Case",
+      "authors": [
+        {
+          "name": "Giovanna D'Agostino",
+          "pid": "71/6310"
+        },
+        {
+          "name": "Alessandro Minisini",
+          "pid": "393/1917"
+        },
+        {
+          "name": "Alberto Policriti",
+          "pid": "56/317"
+        }
+      ],
+      "year": 2026,
+      "kind": "conference",
+      "venue": "ICTCS",
+      "pages": "71-78",
+      "pdf": "https://ceur-ws.org/Vol-4269/paper63.pdf"
+    },
+    {
+      "key": "journals/corr/abs-2411-13627",
+      "title": "CryptoFormalEval: Integrating LLMs and Formal Verification for Automated Cryptographic Protocol Vulnerability Detection",
+      "authors": [
+        {
+          "name": "Cristian Curaba",
+          "pid": "393/4256"
+        },
+        {
+          "name": "Denis D'Ambrosi",
+          "pid": "393/3930"
+        },
+        {
+          "name": "Alessandro Minisini",
+          "pid": "393/1917"
+        },
+        {
+          "name": "Natalia Pérez-Campanero Antolín",
+          "pid": "393/2358"
+        }
+      ],
+      "year": 2024,
+      "kind": "preprint",
+      "venue": "CoRR",
+      "arxiv": "2411.13627"
+    }
+  ]
+}

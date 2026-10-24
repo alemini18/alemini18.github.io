@@ -1,0 +1,23 @@
+% Works that are not (yet) on DBLP. They are merged with the DBLP list at
+% build time: an entry with the same DOI, arXiv id or title as a DBLP record
+% is folded into it (its pdf/url/note fill gaps in the DBLP data), so it is
+% safe to leave an entry here after DBLP picks it up.
+%
+% Fields used: author, title, year, booktitle | journal, venue (short venue
+% name, preferred over booktitle/journal), pages, doi, eprint (arXiv id),
+% pdf, url, note (e.g. "to appear"), kind (journal | conference | preprint |
+% book | chapter | other) to override the type inferred from the entry.
+%
+% The key is the one to list in the `papers:` frontmatter of a topic.
+% Lines starting with % are ignored, so this example stays inactive:
+%
+% @inproceedings{minisini-example,
+%   author    = {Minisini, Alessandro and Rossi, Mario},
+%   title     = {An Example Title with $\omega$-Words},
+%   booktitle = {Proceedings of an Example Conference},
+%   venue     = {EXAMPLE},
+%   year      = {2027},
+%   eprint    = {2701.00000},
+%   pdf       = {/papers/example.pdf},
+%   note      = {to appear},
+% }

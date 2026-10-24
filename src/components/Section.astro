@@ -1,0 +1,34 @@
+---
+// A home-page section: small boxed uppercase label with the coloured notch
+// on the left line, optional background, optional "more" link bottom right.
+//
+//   bg:   a palette token from global.css ("research" → var(--research-bg),
+//         which also switches links to a colour readable on it), or any CSS colour
+//   more: a URL, or { href, text, framed }
+interface Props {
+  label: string;
+  bg?: string;
+  more?: string | { href: string; text?: string; framed?: boolean };
+  id?: string;
+}
+
+const TOKENS = new Set(['research']);
+
+const { label, bg, more, id } = Astro.props;
+const token = bg && TOKENS.has(bg) ? bg : undefined;
+const style = bg ? `--section-bg: ${token ? `var(--${token}-bg)` : bg}` : undefined;
+const link = typeof more === 'string' ? { href: more } : more;
+const headingId = `${id ?? label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-label`;
+---
+
+<section class="section" id={id} data-bg={token} style={style} aria-labelledby={headingId}>
+  <h2 class="label" id={headingId}><span>{label}</span></h2>
+  <div class="section-body"><slot /></div>
+  {
+    link && (
+      <a class:list={['more', { framed: link.framed }]} href={link.href}>
+        {link.text ?? 'more'}
+      </a>
+    )
+  }
+</section>

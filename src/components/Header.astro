@@ -1,0 +1,47 @@
+---
+// The name on two staggered lines, over a thin rule drawn as a unary
+// automaton: a tail of states that closes into a cycle (the "lasso" shape
+// every unary DFA has). The tail starts from the column's left line; the
+// accent dot is the current state. Dots marked .wide are dropped on phones.
+import { site } from '../site.config';
+
+const R = 17; // radius of the cycle
+const M = 4; // keeps the rightmost state inside the drawing
+const tail = [
+  { at: '9%' },
+  { at: '20%', wide: true },
+  { at: '31%' },
+  { at: '42%', wide: true },
+  { at: '53%', current: true },
+  { at: '64%', wide: true },
+  { at: '75%' },
+  { at: '86%', wide: true },
+];
+// states on the cycle, as angles from the joining point (which is a state too)
+const cycle = [180, 90, 0, 270].map((deg) => {
+  const a = (deg * Math.PI) / 180;
+  return { x: -R - M + R * Math.cos(a), y: 20 - R * Math.sin(a) };
+});
+---
+
+<header class="masthead">
+  <h1 class="name">
+    <span>{site.name.first}</span>
+    <span>{site.name.last}</span>
+  </h1>
+  <svg class="lasso" aria-hidden="true" focusable="false">
+    <svg x="100%" y="0" overflow="visible">
+      <!-- anchored to the right edge; the outer svg clips the tail at the left edge -->
+      <line x1="-10000" y1="20" x2={-2 * R - M} y2="20" class="rule" />
+      <circle cx={-R - M} cy="20" r={R} class="rule" />
+    </svg>
+    {
+      tail.map((s) => (
+        <circle cx={s.at} cy="20" r={s.current ? 4.5 : 2.6} class:list={['state', { current: s.current, wide: s.wide }]} />
+      ))
+    }
+    <svg x="100%" y="0" overflow="visible">
+      {cycle.map((p) => <circle cx={p.x} cy={p.y} r="2.6" class="state" />)}
+    </svg>
+  </svg>
+</header>

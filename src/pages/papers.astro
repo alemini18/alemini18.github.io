@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import PaperItem from '../components/PaperItem.astro';
+import { site } from '../site.config';
+import { getPapers } from '../lib/papers';
+
+const { papers } = await getPapers();
+const years = [...new Set(papers.map((p) => p.year))].sort((a, b) => b - a);
+---
+
+<Base title="Papers" description="Complete list of papers, newest first.">
+  <Section label="Papers">
+    <h1 class="page-title">All papers, newest first</h1>
+    <p class="inline-links">
+      Generated from <a href={site.links.dblp}>DBLP</a> at every build, together with work that DBLP does not list
+      yet. A preprint and its published version share one entry. See also the <a href="/#research">papers grouped by
+      theme</a>.
+    </p>
+    <div class="years">
+      {
+        years.map((y) => (
+          <>
+            <h2 id={`y${y}`}>{y}</h2>
+            <ul class="papers">
+              {papers
+                .filter((p) => p.year === y)
+                .map((p) => (
+                  <PaperItem paper={p} />
+                ))}
+            </ul>
+          </>
+        ))
+      }
+    </div>
+  </Section>
+</Base>

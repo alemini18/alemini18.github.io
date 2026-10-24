@@ -1,0 +1,67 @@
+---
+import '@fontsource-variable/source-serif-4/opsz.css';
+import '@fontsource-variable/source-serif-4/opsz-italic.css';
+import '@fontsource-variable/figtree';
+import 'katex/dist/katex.min.css';
+import '../styles/global.css';
+import { site, fullName } from '../site.config';
+import { getPosts } from '../lib/posts';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = site.description } = Astro.props;
+const pageTitle = title ? `${title} · ${fullName}` : fullName;
+const hasPosts = (await getPosts()).length > 0;
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const nav = [
+  { href: '/#research', text: 'Research' },
+  { href: '/papers/', text: 'Papers' },
+  ...(hasPosts ? [{ href: '/notes/', text: 'Notes' }] : []),
+];
+const current = (href: string) => (href.replace(/\/$/, '') === path ? 'page' : undefined);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#e8e6e1" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#151617" media="(prefers-color-scheme: dark)" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    {hasPosts && <link rel="alternate" type="application/rss+xml" title={`${fullName} · Notes`} href="/rss.xml" />}
+  </head>
+  <body>
+    <div class="page">
+      <div class="bar">
+        <a href="/">{fullName}</a>
+        <nav aria-label="Main">
+          {
+            nav.map((n) => (
+              <a href={n.href} aria-current={current(n.href)}>
+                {n.text}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+      <main>
+        <slot />
+      </main>
+      <footer class="bar footer">
+        <span>© {new Date().getFullYear()} {fullName}</span>
+        <span>{hasPosts && <a href="/rss.xml">RSS</a>}</span>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+# Newest first is not required: entries are sorted by date.
+# Fields: id (unique), date (YYYY-MM-DD; shown as month and year), text, url (optional).
+- id: ictcs-2026
+  date: 2026-09-01
+  text: "Non-deterministic Width of Regular Languages: the Unary Case appears at ICTCS 2026."
+  url: https://ceur-ws.org/Vol-4269/paper63.pdf
+- id: cryptoformaleval
+  date: 2024-11-01
+  text: "CryptoFormalEval is on arXiv."
+  url: https://arxiv.org/abs/2411.13627

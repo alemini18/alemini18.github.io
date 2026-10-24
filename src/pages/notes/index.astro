@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import { getPosts, formatDate } from '../../lib/posts';
+
+const posts = await getPosts();
+---
+
+<Base title="Notes" description="Notes and short posts.">
+  <Section label="Notes">
+    {posts.length === 0 && <p>No notes yet.</p>}
+    <ul class="plain notes-list">
+      {
+        posts.map((p) => (
+          <li>
+            <span class="date">{formatDate(p.data.date)}</span>
+            <h2 class="note-title">
+              <a href={`/notes/${p.id}/`}>{p.data.title}</a>
+            </h2>
+            {p.data.description && <p>{p.data.description}</p>}
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+</Base>
+
+<style>
+  .notes-list > li + li {
+    margin-top: 1.4em;
+    padding-top: 1.2em;
+    border-top: 1px solid var(--rule);
+  }
+  .note-title {
+    font-size: 1.45rem;
+    font-weight: 400;
+    line-height: 1.25;
+    margin: 0.15em 0 0.25em;
+  }
+</style>

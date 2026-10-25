@@ -27,10 +27,10 @@ export const cv = {
       title: 'Scuola Superiore Universitaria di Toppo Wassermann',
       org: 'Second-level master’s degree',
       place: 'Udine, Italy',
-      when: 'Sep 2021 – now',
+      when: 'Sep 2021 – Mar 2027',
       bullets: [
         'GPA: 30/30.',
-        'The School for Advanced Studies of the University of Udine is a higher learning institution based on merit (10% admission rate).',
+        'The School for Advanced Studies of the University of Udine is a higher learning institution based on merit.',
         'Relevant courses: Algorithms for massive data, Lambda calculus, Constraint programming, Graph isomorphism theory.',
       ],
     },
@@ -38,7 +38,7 @@ export const cv = {
       title: 'University of Udine',
       org: 'M.Sc. in Computer Science',
       place: 'Udine, Italy',
-      when: 'Oct 2024 – now',
+      when: 'Oct 2024 – Dec 2026',
       bullets: [
         'GPA: 29.8/30.',
         'Relevant courses: Computability theory, Complexity theory, Automated reasoning, Formal verification, Distributed systems and algorithms, Operations research.',
@@ -51,7 +51,7 @@ export const cv = {
       when: 'Sep 2021 – Oct 2024',
       bullets: [
         'GPA: 29.3/30. Graduated with 110/110 cum laude.',
-        'Research thesis: <a href="https://github.com/alemini18/bachelor_cs_thesis/blob/main/Thud.pdf"><em>Co-lexicographically Ordering Automata: the Hasse Automaton</em></a> (supervisor: prof. Alberto Policriti).',
+        'Research thesis: <a href="/papers/minisini-bsc-thesis.pdf"><em>Co-lexicographically Ordering Automata: the Hasse Automaton</em></a> (supervisor: prof. Alberto Policriti).',
       ],
     },
   ] satisfies CvEntry[],
@@ -67,7 +67,7 @@ export const cv = {
     },
     {
       title: 'Predecessor function in lambda calculus',
-      url: 'https://github.com/alemini18/predecessor/blob/main/Predecessor.pdf',
+      url: '/papers/minisini-predecessor.pdf',
       org: 'Short thesis for the Scuola Superiore (supervisor: prof. Fabio Alessi)',
       place: 'Udine, Italy',
       when: 'Jul 2023 – Oct 2023',
@@ -75,7 +75,7 @@ export const cv = {
     },
     {
       title: 'Longest common prefix sketch and application to the Lempel–Ziv compression algorithm',
-      url: 'https://github.com/alemini18/lcp/blob/main/lcp.pdf',
+      url: '/papers/minisini-lcp-sketch.pdf',
       org: 'Research project at the Scuola Superiore (supervisor: prof. Nicola Prezza)',
       place: 'Udine, Italy',
       when: 'Jul 2022 – Oct 2022',

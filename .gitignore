@@ -145,3 +145,9 @@ vite.config.ts.timestamp-*
 # Astro
 .astro/
 dist/
+
+# Local only: notes for Claude Code, local settings, original PDFs (the site uses the copies in public/)
+CLAUDE.md
+.claude/
+/CV-1.pdf
+/Thud.pdf

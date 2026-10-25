@@ -167,6 +167,9 @@ b {
   font-size: 15px;
   letter-spacing: 0.06em;
 }
+.bar .home .short {
+  display: none;
+}
 .bar nav {
   display: flex;
   gap: 0 1.6em;
@@ -593,13 +596,23 @@ b {
     font-size: 100%; /* 16px */
   }
   :root {
-    --outer: 10px;
+    --outer: 0px;
     --pad: 18px;
     --meta: 0.75rem;
   }
+  /* no column lines on phones: the rules run edge to edge, so the
+     crosses and the notch that sit on those lines go too */
+  .page {
+    border-inline: 0;
+  }
+  .masthead::before,
+  .masthead::after,
+  .split::before,
+  .split::after,
+  .page > main > .section::before,
+  .page > main > .section::after,
   .label::before {
-    width: 3px;
-    left: calc(-1 * var(--pad) - 2px);
+    display: none;
   }
   .topic,
   .years > h2 {
@@ -619,10 +632,19 @@ b {
     padding-block: 40px 34px;
   }
   .pagehead .deco-grid .point {
-    right: calc(9px + 18px * 2 - 4px);
+    right: calc(9px + 18px * 1 - 4px);
   }
+  /* the full name may not fit next to the links: say "home" in mono */
   .bar .home {
-    font-size: 14px;
+    font-family: var(--mono);
+    letter-spacing: normal;
+    font-size: inherit;
+  }
+  .bar .home .name {
+    display: none;
+  }
+  .bar .home .short {
+    display: inline;
   }
   .bar nav {
     gap: 0 1.1em;

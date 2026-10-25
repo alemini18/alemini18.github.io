@@ -51,7 +51,7 @@ const current = (href: string) => (href.replace(/\/$/, '') === path ? 'page' : u
   <body>
     <div class="page">
       <div class="bar">
-        <a class="home" href="/">{fullName}</a>
+        <a class="home" href="/"><span class="name">{fullName}</span><span class="short">home</span></a>
         <nav aria-label="Main">
           {
             nav.map((n) => (

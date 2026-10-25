@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import { writeFile } from 'node:fs/promises';
 import { unified } from '@astrojs/markdown-remark';
+import sitemap from '@astrojs/sitemap';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import remarkCite from './src/lib/remark-cite.ts';
@@ -27,7 +28,7 @@ function cname() {
 export default defineConfig({
   site: site.url,
   trailingSlash: 'ignore',
-  integrations: [cname()],
+  integrations: [sitemap(), cname()],
   markdown: {
     processor: unified({
       remarkPlugins: [remarkMath, remarkCite],

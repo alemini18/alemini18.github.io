@@ -40,3 +40,9 @@ text, `[@key]` becomes `[n]`, numbered by the order of that list.
 Set `url` in `src/site.config.ts` to the new address: the build then writes a matching `CNAME` file. Also enter
 the domain in the repository settings under *Settings → Pages → Custom domain*, because Pages deployments made
 from Actions take the domain from there.
+
+## Search engines
+
+Every build writes `sitemap-index.xml` (pages only, via `@astrojs/sitemap`) and a `robots.txt` that points to it,
+both using `url` from `src/site.config.ts`. Submit `https://<site>/sitemap-index.xml` once in Google Search Console
+and Bing Webmaster Tools; after a domain change, verify the new domain and submit it again.

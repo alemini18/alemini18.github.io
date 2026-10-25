@@ -1,13 +1,13 @@
 /* ------------------------------------------------------------ tokens */
 
 :root {
-  --bg: #f3f2ee; /* paper */
+  --bg: #e5e5e5; /* paper */
   --fg: #16171c; /* ink */
-  --muted: #5d5b56;
-  --rule: #a9a7a0;
+  --muted: #555555;
+  --rule: #a0a0a0;
   --rule-strong: #16171c;
   --accent: #1f5c3f; /* dark green (was ultramarine #2a3fd1) */
-  --hover-bg: #eae9e4;
+  --hover-bg: #dcdcdc;
 
   --serif: 'Source Serif 4 Variable', 'Source Serif 4', Georgia, serif;
   --display: 'Spectral SC', var(--serif);

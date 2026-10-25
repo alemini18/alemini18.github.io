@@ -17,6 +17,7 @@
   --outer: 40px; /* from the window edge to the vertical lines */
   --pad: 40px; /* from the vertical lines to the text */
   --meta: 0.7rem; /* size of the monospaced metadata */
+  --ease: cubic-bezier(0.985, -0.15, 0.015, 1.075);
 
   --link: var(--accent);
   color-scheme: light dark;
@@ -249,6 +250,16 @@ b {
   width: 5px;
   height: 30px;
   background: var(--accent);
+  transition:
+    top 300ms var(--ease),
+    height 300ms var(--ease);
+}
+/* hovering a section stretches its notch along the column line */
+@media (hover: hover) {
+  .section:hover > .label::before {
+    top: -11px;
+    height: 50px;
+  }
 }
 
 .more {
@@ -648,5 +659,11 @@ b {
   }
   .bar nav {
     gap: 0 1.1em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .label::before {
+    transition: none;
   }
 }

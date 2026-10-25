@@ -6,7 +6,7 @@
   --muted: #5f5b53;
   --rule: #aaa597;
   --rule-strong: #16171c;
-  --accent: #2a3fd1; /* ultramarine */
+  --accent: #1f5c3f; /* dark green (was ultramarine #2a3fd1) */
   --hover-bg: #ebe7dc;
 
   --serif: 'Source Serif 4 Variable', 'Source Serif 4', Georgia, serif;
@@ -30,7 +30,7 @@
     --muted: #a29e95;
     --rule: #45474e;
     --rule-strong: #ece8df;
-    --accent: #8e9cff;
+    --accent: #6dbb8f; /* was #8e9cff */
     --hover-bg: #1b1c21;
   }
 }

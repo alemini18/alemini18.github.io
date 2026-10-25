@@ -1,11 +1,40 @@
 ---
 // Home page header: the name in small caps on two staggered lines, and a
-// large thin circle cut by the column's right line, with one accent point.
+// large automaton made of a single cycle, cut by the column's right line,
+// with the current state filled in the accent colour and ringed inside.
 import { site } from '../site.config';
 
-const C = { x: 470, y: 150, r: 128 };
-const angle = (215 * Math.PI) / 180;
-const point = { x: C.x + C.r * Math.cos(angle), y: C.y + C.r * Math.sin(angle) };
+const C = { x: 470, y: 150, r: 112 };
+const STATES = 6;
+const START = 215; // angle of the current state, in degrees (clockwise from 3 o'clock)
+const STATE_R = 13;
+const ARROW = { length: 9, half: 3.5 };
+
+const rad = (deg: number) => (deg * Math.PI) / 180;
+const at = (a: number) => ({ x: C.x + C.r * Math.cos(a), y: C.y + C.r * Math.sin(a) });
+const f = (n: number) => n.toFixed(1);
+
+const step = rad(360 / STATES);
+// angular gap that keeps an edge from touching a state
+const gap = 2 * Math.asin(STATE_R / (2 * C.r));
+const states = Array.from({ length: STATES }, (_, i) => rad(START) + i * step);
+
+const edges = states.map((a) => {
+  const from = at(a + gap);
+  const end = a + step - gap;
+  const to = at(end);
+  // the arrowhead points along the clockwise tangent at the end of the edge
+  const t = { x: -Math.sin(end), y: Math.cos(end) };
+  const n = { x: Math.cos(end), y: Math.sin(end) };
+  const back = { x: to.x - ARROW.length * t.x, y: to.y - ARROW.length * t.y };
+  return {
+    arc: `M${f(from.x)} ${f(from.y)} A${C.r} ${C.r} 0 0 1 ${f(back.x)} ${f(back.y)}`,
+    head:
+      `M${f(to.x)} ${f(to.y)} ` +
+      `L${f(back.x + ARROW.half * n.x)} ${f(back.y + ARROW.half * n.y)} ` +
+      `L${f(back.x - ARROW.half * n.x)} ${f(back.y - ARROW.half * n.y)}Z`,
+  };
+});
 ---
 
 <header class="masthead">
@@ -13,8 +42,23 @@ const point = { x: C.x + C.r * Math.cos(angle), y: C.y + C.r * Math.sin(angle) }
     <span class="first">{site.name.first}</span>
     <span class="last">{site.name.last}</span>
   </h1>
-  <svg class="deco deco-circle" viewBox="0 0 500 300" preserveAspectRatio="xMaxYMid meet" aria-hidden="true">
-    <circle class="ring" cx={C.x} cy={C.y} r={C.r} />
-    <circle class="point" cx={point.x.toFixed(1)} cy={point.y.toFixed(1)} r="6" />
+  <svg class="deco deco-cycle" viewBox="0 0 500 300" preserveAspectRatio="xMaxYMid meet" aria-hidden="true">
+    {edges.map((e) => (
+      <>
+        <path class="edge" d={e.arc} />
+        <path class="head" d={e.head} />
+      </>
+    ))}
+    {states.map((a, i) => {
+      const p = at(a);
+      if (i > 0) return <circle class="state" cx={f(p.x)} cy={f(p.y)} r={STATE_R} />;
+      // the current state is filled, with an inner ring cut out of it
+      return (
+        <>
+          <circle class="state current" cx={f(p.x)} cy={f(p.y)} r={STATE_R} />
+          <circle class="inner" cx={f(p.x)} cy={f(p.y)} r={STATE_R - 3.5} />
+        </>
+      );
+    })}
   </svg>
 </header>

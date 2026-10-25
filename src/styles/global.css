@@ -519,7 +519,7 @@ b {
   padding-left: 4.34em;
 }
 
-/* decorations to the right of the name: circle on the home, grid on inner pages */
+/* decorations to the right of the name: a cycle on the home, grid on inner pages */
 .masthead .name {
   position: relative;
   z-index: 1;
@@ -534,13 +534,26 @@ b {
   overflow: hidden;
   pointer-events: none;
 }
-.deco-circle .ring {
+.deco-cycle .edge,
+.deco-cycle .state {
   fill: none;
   stroke: var(--fg);
   stroke-width: 1;
   vector-effect: non-scaling-stroke;
 }
-.deco-circle .point,
+.deco-cycle .head {
+  fill: var(--fg);
+}
+.deco-cycle .state.current {
+  fill: var(--accent);
+  stroke: var(--accent);
+}
+.deco-cycle .inner {
+  fill: none;
+  stroke: var(--bg);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
 .deco-grid .point {
   fill: var(--accent);
   background: var(--accent);
